@@ -12,12 +12,5 @@ jobs:
         run: |
           pnpm install
           pnpm run build
-          env:
-            TSC_COMPILE_ON_ERROR: 'true'
-            CI: 'false'
-      # هذا السطر الجديد هو الذي سيظهر لك زر التحميل (Artifact)
-      - name: Upload Build
-        uses: actions/upload-artifact@v3
-        with:
-          name: game-files
-          path: dist/ # أو مجلد البناء الخاص بك (قد يكون build أو public)
+      - name: List files to find build folder
+        run: ls -R
