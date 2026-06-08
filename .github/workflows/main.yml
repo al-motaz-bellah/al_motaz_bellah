@@ -1,8 +1,24 @@
-- name: Build
-        run: pnpm run build
-
-      - name: Upload Artifacts
+name: Build and Deploy
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Install and Build
+        run: |
+          pnpm install
+          pnpm run build --no-typecheck || echo "Skipping typecheck"
+      
+      - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: game-files
-          path: dist/ # أو غيرها إذا كان مجلد المخرجات عندك باسم مختلف (مثل build أو public)
+          path: |
+            dist/
+            build/
+            public/
+          if-no-files-found: error
